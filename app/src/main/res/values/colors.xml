@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="text_primary">#DE000000</color>
+    <color name="text_hint">#99000000</color>
+
+    <!-- 상태 색상 -->
+    <color name="text_default">#777777</color>
+    <color name="status_normal">#4CAF50</color>
+    <color name="status_warning">#FF9800</color>
+    <color name="status_danger">#F44336</color>
+    <color name="status_low">#2196F3</color>
+
+    <!-- 카드 배경 색상 -->
+    <color name="card_weight_bg">#fff5ee</color>
+    <color name="card_glucose_bg">#f8f8ff</color>
+
+    <!-- 칩 색상 -->
+    <color name="chip_background_default">#E0E0E0</color>
+    <color name="chip_text_default">#FFFFFF</color>
+    <color name="chip_background_notes">#FFE0E0</color>
+    <color name="chip_text_notes">#FF0000</color>
+
+</resources>

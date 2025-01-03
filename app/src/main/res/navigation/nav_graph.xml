@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/navigation_home">
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.kisayo.bloodsugarrecord.fragments.HomeFragment"
+        android:label="홈" />
+
+    <fragment
+        android:id="@+id/navigation_records"
+        android:name="com.kisayo.bloodsugarrecord.fragments.RecordsFragment"
+        android:label="기록" />
+
+    <fragment
+        android:id="@+id/navigation_meals"
+        android:name="com.kisayo.bloodsugarrecord.fragments.MealsFragment"
+        android:label="식사기록" />
+
+    <fragment
+        android:id="@+id/navigation_analysis"
+        android:name="com.kisayo.bloodsugarrecord.fragments.AnalysisFragment"
+        android:label="분석보기" />
+
+    <fragment
+        android:id="@+id/navigation_settings"
+        android:name="com.kisayo.bloodsugarrecord.fragments.SettingsFragment"
+        android:label="설정" />
+
+</navigation>

@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="12dp"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="6dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:id="@+id/tvDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pretendard_medium"
+                android:text="2025년 1월 1일"
+                android:textColor="#333333"
+                android:textSize="20sp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@id/btnDelete"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="18dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="8dp"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:text="공복"
+                    android:textColor="#333333"
+                    android:textSize="16sp"/>
+
+                <TextView
+                    android:id="@+id/tvFastingValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:text="120 mg/dL"
+                    android:textColor="#007AFF"
+                    android:textSize="16sp"/>
+            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/btnDelete"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentEnd="true"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_delete" />
+        </RelativeLayout>
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:columnCount="4"
+            android:rowCount="3">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:layout_marginBottom="12dp"
+                android:fontFamily="@font/pretendard_medium"
+                android:text="아침 식전"
+                android:textColor="#555555"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tvBreakfastBeforeValue"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:layout_marginBottom="12dp"
+                android:fontFamily="@font/pretendard_medium"
+                android:text="110 mg/dL"
+                android:textColor="#007AFF"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:layout_marginBottom="12dp"
+                android:fontFamily="@font/pretendard_medium"
+                android:text="아침 식후"
+                android:textColor="#555555"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tvBreakfastAfterValue"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:layout_marginBottom="12dp"
+                android:fontFamily="@font/pretendard_medium"
+                android:text="140 mg/dL"
+                android:textColor="#007AFF"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:layout_marginBottom="12dp"
+                android:fontFamily="@font/pretendard_medium"
+                android:text="점심 식전"
+                android:textColor="#555555"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tvLunchBeforeValue"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:layout_marginBottom="12dp"
+                android:fontFamily="@font/pretendard_medium"
+                android:text="100 mg/dL"
+                android:textColor="#007AFF"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:layout_marginBottom="12dp"
+                android:fontFamily="@font/pretendard_medium"
+                android:text="점심 식후"
+                android:textColor="#555555"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tvLunchAfterValue"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:layout_marginBottom="12dp"
+                android:fontFamily="@font/pretendard_medium"
+                android:text="130 mg/dL"
+                android:textColor="#007AFF"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:layout_marginBottom="12dp"
+                android:fontFamily="@font/pretendard_medium"
+                android:text="저녁 식전"
+                android:textColor="#555555"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tvDinnerBeforeValue"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:layout_marginBottom="12dp"
+                android:fontFamily="@font/pretendard_medium"
+                android:text="105 mg/dL"
+                android:textColor="#007AFF"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:layout_marginBottom="12dp"
+                android:fontFamily="@font/pretendard_medium"
+                android:text="저녁 식후"
+                android:textColor="#555555"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tvDinnerAfterValue"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:layout_marginBottom="12dp"
+                android:fontFamily="@font/pretendard_medium"
+                android:text="135 mg/dL"
+                android:textColor="#007AFF"
+                android:textSize="14sp" />
+        </GridLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="8dp"
+                android:fontFamily="@font/pretendard_medium"
+                android:text="체중"
+                android:textColor="#333333"
+                android:textSize="16sp"/>
+            <TextView
+                android:id="@+id/tvWeight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pretendard_medium"
+                android:text="70.5 kg"
+                android:textColor="#007AFF"
+                android:textSize="16sp"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#CCCCCC"
+            android:layout_marginBottom="8dp"/>
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipNotes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            style="@style/Widget.MaterialComponents.Chip.Action"/>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
