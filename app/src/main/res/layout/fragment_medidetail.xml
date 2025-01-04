@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="#F8F8F8">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- 진료 기록 제목 -->
+        <TextView
+            android:id="@+id/tvRecordTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="진료 기록 상세"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="#333333"
+            android:layout_marginBottom="16dp" />
+
+        <!-- 병원명 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="병원명"
+            android:textSize="16sp"
+            android:layout_marginBottom="8dp"
+            android:textColor="#555555" />
+
+        <TextView
+            android:id="@+id/tvDetailHospitalName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_edittext"
+            android:padding="12dp"
+            android:layout_marginBottom="16dp"
+            android:textSize="16sp" />
+
+        <!-- 진료 날짜 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="진료 날짜"
+            android:textSize="16sp"
+            android:layout_marginBottom="8dp"
+            android:textColor="#555555" />
+
+        <TextView
+            android:id="@+id/tvDetailDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_edittext"
+            android:padding="12dp"
+            android:layout_marginBottom="16dp"
+            android:textSize="16sp" />
+
+        <!-- 담당 의사 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="담당 의사"
+            android:textSize="16sp"
+            android:layout_marginBottom="8dp"
+            android:textColor="#555555" />
+
+        <TextView
+            android:id="@+id/tvDetailDoctorName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_edittext"
+            android:padding="12dp"
+            android:layout_marginBottom="16dp"
+            android:textSize="16sp" />
+
+        <!-- 처방 내용 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="처방 내용"
+            android:textSize="16sp"
+            android:layout_marginBottom="8dp"
+            android:textColor="#555555" />
+
+        <TextView
+            android:id="@+id/tvDetailPrescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_edittext"
+            android:padding="12dp"
+            android:layout_marginBottom="16dp"
+            android:textSize="16sp" />
+
+        <!-- 진료 노트 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="진료 노트"
+            android:textSize="16sp"
+            android:layout_marginBottom="8dp"
+            android:textColor="#555555" />
+
+        <TextView
+            android:id="@+id/tvDetailNotes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_edittext"
+            android:padding="12dp"
+            android:layout_marginBottom="16dp"
+            android:textSize="16sp" />
+
+        <!-- 다음 예약일 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="다음 예약일"
+            android:textSize="16sp"
+            android:layout_marginBottom="8dp"
+            android:textColor="#555555" />
+
+        <TextView
+            android:id="@+id/tvDetailNextAppointment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_edittext"
+            android:padding="12dp"
+            android:layout_marginBottom="16dp"
+            android:textSize="16sp" />
+
+        <!-- 수정 삭제 버튼 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="16dp">
+
+            <Button
+                android:id="@+id/btnEdit"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="수정"
+                android:layout_marginEnd="8dp" />
+
+            <Button
+                android:id="@+id/btnDelete"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="삭제" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

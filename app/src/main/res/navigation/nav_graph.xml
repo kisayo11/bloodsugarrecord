@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
@@ -17,7 +16,25 @@
     <fragment
         android:id="@+id/navigation_medinote"
         android:name="com.kisayo.bloodsugarrecord.fragments.MedinoteFragment"
-        android:label="메디노트" />
+        android:label="메디노트">
+        <action
+            android:id="@+id/action_medinoteFragment_to_mediAddFragment"
+            app:destination="@id/mediAddFragment" />
+        <action
+            android:id="@+id/action_medinoteFragment_to_mediDetailFragment"
+            app:destination="@id/mediDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/mediAddFragment"
+        android:name="com.kisayo.bloodsugarrecord.fragments.MediAddFragment"
+        android:label="진료 기록 추가" />
+
+    <!-- mediDetailFragment를 밖으로 이동 -->
+    <fragment
+        android:id="@+id/mediDetailFragment"
+        android:name="com.kisayo.bloodsugarrecord.fragments.MediDetailFragment"
+        android:label="진료 기록 상세" />
 
     <fragment
         android:id="@+id/navigation_analysis"

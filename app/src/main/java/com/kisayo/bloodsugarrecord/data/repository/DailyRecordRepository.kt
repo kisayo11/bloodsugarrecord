@@ -4,13 +4,13 @@ import com.kisayo.bloodsugarrecord.data.dao.DailyRecordDao
 import com.kisayo.bloodsugarrecord.data.model.DailyRecord
 
 class DailyRecordRepository(private val dailyRecordDao: DailyRecordDao) {
-    suspend fun getOrCreateRecord(date: String): DailyRecord {
+    fun getOrCreateRecord(date: String): DailyRecord {
         return dailyRecordDao.getRecordByDate(date) ?: DailyRecord(date = date).also {
             dailyRecordDao.insert(it)
         }
     }
 
-    suspend fun updateField(date: String, field: String, value: Any) {
+    fun updateField(date: String, field: String, value: Any) {
         val updatedAt = System.currentTimeMillis()
         when (field) {
             "fasting" -> dailyRecordDao.updateFasting(date, value as Int, updatedAt)
@@ -25,11 +25,11 @@ class DailyRecordRepository(private val dailyRecordDao: DailyRecordDao) {
         }
     }
 
-    suspend fun getRecentRecords(days: Int): List<DailyRecord> {
+    fun getRecentRecords(days: Int): List<DailyRecord> {
         return dailyRecordDao.getRecordsForPeriod(days).sortedByDescending { it.date }
     }
 
-    suspend fun deleteRecord(date: String) {
+    fun deleteRecord(date: String) {
         dailyRecordDao.deleteRecord(date)
     }
 }

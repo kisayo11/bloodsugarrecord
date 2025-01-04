@@ -1,4 +1,4 @@
-package com.kisayo.bloodsugarrecord.data.database
+package com.kisayo.bloodsugarrecord.data.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
