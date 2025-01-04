@@ -11,9 +11,9 @@
         android:title="기록"/>
 
     <item
-        android:id="@+id/navigation_meals"
-        android:icon="@drawable/ic_restaurant"
-        android:title="식사기록"/>
+        android:id="@+id/navigation_medinote"
+        android:icon="@drawable/ic_medinote"
+        android:title="메디노트"/>
 
     <item
         android:id="@+id/navigation_analysis"

@@ -21,4 +21,9 @@ class RecordsViewModel(application: Application) : AndroidViewModel(application)
             dailyRecordDao.updateNotes(date, notes, System.currentTimeMillis())
         }
     }
+    fun deleteRecord(date: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            dailyRecordDao.deleteRecord(date)
+        }
+    }
 }

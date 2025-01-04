@@ -49,37 +49,26 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        // ViewModel 초기화
         viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
 
-        // 초기 날짜 설정
         binding.tvDate.text = dateFormat.format(currentDate.time)
-
-        // 달력 감추기
         binding.calendarView.visibility = View.GONE
 
         setupListeners()
-
-        // 초기 데이터 로드
         updateDate()
 
         return view
     }
 
     private fun setupListeners() {
-        // 날짜 텍스트뷰 클릭: 달력 표시/숨김
         binding.tvDate.setOnClickListener { toggleCalendarVisibility() }
-        // 이전 날짜 버튼
         binding.btnPrevDay.setOnClickListener { changeDate(-1) }
-        // 다음 날짜 버튼
         binding.btnNextDay.setOnClickListener { changeDate(1) }
-        // 달력 날짜 선택
         binding.calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
             currentDate.set(year, month, dayOfMonth)
             updateDate()
             binding.calendarView.visibility = View.GONE
         }
-        // 각 카드뷰 클릭 리스너 설정
         setupCardViewListeners()
     }
 
@@ -194,9 +183,8 @@ class HomeFragment : Fragment() {
             updateUIWithDailyRecord(dailyRecord)
         }
 
-        viewModel.prepareDailyChartData(dateString)
-        viewModel.chartData.observe(viewLifecycleOwner) { chartData ->
-            setupDailyChart(chartData)
+        viewModel.chartData.observe(viewLifecycleOwner) { entries ->
+            setupDailyChart(entries)
         }
     }
 
@@ -211,62 +199,72 @@ class HomeFragment : Fragment() {
         binding.tvWeightValue.text = record.weight?.let { String.format("%.1f kg", it) } ?: "-- kg"
     }
 
-    private fun setupDailyChart(records: List<Entry>) {
-        val chartDaily = binding.chartDaily
+    private fun setupDailyChart(entries: List<Entry>) {
+        val chartFastingDaily = binding.chartFasting
 
-        // 차트 기본 설정
-        chartDaily.apply {
+        // 평균 계산 및 표시
+        val average = if (entries.isNotEmpty()) {
+            entries.map { it.y }.average()
+        } else 0.0
+        binding.tvFastingAverage.text = if (average == 0.0) "--" else String.format("%.1f", average)
+
+        chartFastingDaily.apply {
             description.isEnabled = false
             setTouchEnabled(true)
             isDragEnabled = true
             setScaleEnabled(true)
-            setPinchZoom(true)
+            setPinchZoom(false)
+            legend.isEnabled = false
+
+            xAxis.apply {
+                position = XAxis.XAxisPosition.BOTTOM
+                setDrawGridLines(false)
+                valueFormatter = object : ValueFormatter() {
+                    override fun getFormattedValue(value: Float): String {
+                        val index = value.toInt()
+                        if (index >= 0 && index < entries.size) {
+                            val date = entries[index].data as String
+                            Log.d("Chart", "Index: $index, Date: $date") // 날짜 확인용 로그
+                            return SimpleDateFormat("M/d", Locale.getDefault()).format(
+                                dateFormat.parse(date)!!
+                            )
+                        }
+                        return ""
+                    }
+                }
+                labelCount = entries.size  // 라벨 개수 명시적 설정
+                granularity = 1f  // 최소 간격 설정
+            }
+
+            axisLeft.apply {
+                axisMinimum = 60f
+                axisMaximum = 200f
+                setDrawGridLines(true)
+            }
+            axisRight.isEnabled = false
         }
 
-        // 데이터가 없을 경우 처리
-        if (records.isEmpty()) {
-            chartDaily.clear()
-            chartDaily.setNoDataText("데이터가 없습니다")
-            chartDaily.invalidate()
+        if (entries.isEmpty()) {
+            chartFastingDaily.clear()
+            chartFastingDaily.setNoDataText("데이터가 없습니다")
             return
         }
 
-        // X축 설정
-        chartDaily.xAxis.apply {
-            position = XAxis.XAxisPosition.BOTTOM
-            setDrawGridLines(false)
-            granularity = 1f
-            labelCount = records.size
-            valueFormatter = object : ValueFormatter() {
-                override fun getFormattedValue(value: Float): String {
-                    val index = value.toInt()
-                    return if (index >= 0 && index < records.size) {
-                        records[index].data as? String ?: ""
-                    } else {
-                        ""
-                    }
-                }
-            }
-        }
-
-        // Y축 설정
-        chartDaily.axisLeft.apply {
-            axisMinimum = 0f
-            axisMaximum = 300f
-        }
-        chartDaily.axisRight.isEnabled = false
-
-        val dataSet = LineDataSet(records, "혈당").apply {
+        val dataSet = LineDataSet(entries, "공복혈당").apply {
             color = ContextCompat.getColor(requireContext(), R.color.black)
             setCircleColor(ContextCompat.getColor(requireContext(), R.color.black))
             lineWidth = 2f
             circleRadius = 4f
             setDrawValues(true)
+            valueFormatter = object : ValueFormatter() {
+                override fun getFormattedValue(value: Float): String {
+                    return "${value.toInt()}"
+                }
+            }
         }
 
-        val lineData = LineData(dataSet)
-        chartDaily.data = lineData
-        chartDaily.invalidate()
+        chartFastingDaily.data = LineData(dataSet)
+        chartFastingDaily.invalidate()
     }
 
     override fun onDestroyView() {

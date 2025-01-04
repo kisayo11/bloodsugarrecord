@@ -75,6 +75,8 @@ dependencies {
     // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
     implementation("com.google.android.material:material:1.7.6")
+    implementation("com.github.doyaaaaaken:kotlin-csv-jvm:1.10.0")
+
 
 
 }

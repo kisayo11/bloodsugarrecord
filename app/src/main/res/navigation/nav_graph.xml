@@ -15,9 +15,9 @@
         android:label="기록" />
 
     <fragment
-        android:id="@+id/navigation_meals"
-        android:name="com.kisayo.bloodsugarrecord.fragments.MealsFragment"
-        android:label="식사기록" />
+        android:id="@+id/navigation_medinote"
+        android:name="com.kisayo.bloodsugarrecord.fragments.MedinoteFragment"
+        android:label="메디노트" />
 
     <fragment
         android:id="@+id/navigation_analysis"

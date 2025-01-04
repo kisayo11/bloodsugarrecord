@@ -32,7 +32,6 @@ class RecordsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         binding.rvDailyRecords.layoutManager = LinearLayoutManager(requireContext())
 
         viewModel.getRecentRecords(5).observe(viewLifecycleOwner) { records ->
@@ -42,10 +41,11 @@ class RecordsFragment : Fragment() {
             } else {
                 binding.tvNoRecords.visibility = View.GONE
                 binding.rvDailyRecords.visibility = View.VISIBLE
-
-                recordsAdapter = RecordsAdapter(records) { record ->
-                    showNotesDialog(record)
-                }
+                recordsAdapter = RecordsAdapter(
+                    records = records,
+                    onNotesClickListener = { record -> showNotesDialog(record) },
+                    onDeleteClickListener = { record -> viewModel.deleteRecord(record.date) }
+                )
                 binding.rvDailyRecords.adapter = recordsAdapter
             }
         }

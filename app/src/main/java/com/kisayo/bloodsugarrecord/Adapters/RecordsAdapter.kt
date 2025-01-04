@@ -2,6 +2,8 @@ package com.kisayo.bloodsugarrecord.Adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.kisayo.bloodsugarrecord.R
@@ -10,7 +12,8 @@ import com.kisayo.bloodsugarrecord.databinding.ItemDailyRecordBinding
 
 class RecordsAdapter(
     private val records: List<DailyRecord>,
-    private val onNotesClickListener: (DailyRecord) -> Unit
+    private val onNotesClickListener: (DailyRecord) -> Unit,
+    private val onDeleteClickListener: (DailyRecord) -> Unit
 ) : RecyclerView.Adapter<RecordsAdapter.RecordViewHolder>() {
 
     inner class RecordViewHolder(val binding: ItemDailyRecordBinding) :
@@ -63,6 +66,20 @@ class RecordsAdapter(
                 setOnClickListener {
                     onNotesClickListener(record)
                 }
+
+            }
+            // 삭제 버튼 클릭 리스너
+            binding.btnDelete.setOnClickListener {
+                AlertDialog.Builder(itemView.context)
+                    .setTitle("기록 삭제")
+                    .setMessage("이 날짜의 기록을 삭제하시겠습니까?")
+                    .setPositiveButton("네") { _, _ ->
+                        onDeleteClickListener(record)
+                        val context = itemView.context
+                        Toast.makeText(context, "선택한 날짜의 기록이 삭제되었습니다.", Toast.LENGTH_SHORT).show()
+                    }
+                    .setNegativeButton("아니요", null)
+                    .show()
             }
         }
 

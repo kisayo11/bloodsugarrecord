@@ -47,4 +47,26 @@ interface DailyRecordDao {
 
     @Query("SELECT * FROM daily_records ORDER BY date DESC LIMIT :periodDays")
     fun getRecordsForPeriod(periodDays: Int): List<DailyRecord>
+
+    // 지난 7일간의 공복 평균을 계산하는 쿼리
+    @Query("""
+        SELECT AVG(fasting) 
+        FROM daily_records 
+        WHERE date BETWEEN date('now', '-8 days') AND date('now')
+        AND fasting > 0
+    """)
+    fun getLastWeekFastingAverage(): Float
+
+    // 기록 삭제 쿼리
+    @Query("DELETE FROM daily_records WHERE date = :date")
+    fun deleteRecord(date: String)
+
+    // 모든 레코드를 삭제
+    @Query("DELETE FROM daily_records")
+    fun clearAllRecords()
+
+    // 모든 레코드 가져오기)
+    @Query("SELECT * FROM daily_records ORDER BY date DESC")
+    fun getAllRecords(): List<DailyRecord>
+
 }

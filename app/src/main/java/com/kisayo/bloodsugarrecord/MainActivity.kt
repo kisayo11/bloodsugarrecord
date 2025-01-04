@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
             binding.topAppBar.title = when(destination.id) {
                 R.id.navigation_home -> "나의 혈당 수첩"
                 R.id.navigation_records -> "기록"
-                R.id.navigation_meals -> "식사기록"
+                R.id.navigation_medinote -> "메디노트"
                 R.id.navigation_analysis -> "분석보기"
                 R.id.navigation_settings -> "설정"
                 else -> "나의 혈당 수첩"

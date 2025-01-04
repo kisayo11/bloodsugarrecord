@@ -24,4 +24,12 @@ class DailyRecordRepository(private val dailyRecordDao: DailyRecordDao) {
             else -> throw IllegalArgumentException("Invalid field: $field")
         }
     }
+
+    suspend fun getRecentRecords(days: Int): List<DailyRecord> {
+        return dailyRecordDao.getRecordsForPeriod(days).sortedByDescending { it.date }
+    }
+
+    suspend fun deleteRecord(date: String) {
+        dailyRecordDao.deleteRecord(date)
+    }
 }

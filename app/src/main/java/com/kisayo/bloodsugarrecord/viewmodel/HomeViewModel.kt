@@ -31,6 +31,16 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch(Dispatchers.IO) {
             val record = repository.getOrCreateRecord(date)
             _dailyRecord.postValue(record)
+
+            // 최근 7일간의 공복 데이터도 가져옴
+            val weeklyRecords = repository.getRecentRecords(8)
+            val chartEntries = weeklyRecords
+                .filter { it.fasting != null && it.fasting > 0 }
+                .reversed()
+                .mapIndexed { index, record ->
+                    Entry(index.toFloat(), record.fasting!!.toFloat(), record.date)
+                }
+            _chartData.postValue(chartEntries)
         }
     }
 
@@ -47,34 +57,14 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                 else -> throw IllegalArgumentException("Invalid type: $type")
             }
             repository.updateField(date, field, value)
-            getDailyRecord(date)  // Refresh the daily record
+            getDailyRecord(date)
         }
     }
 
     fun updateWeightRecord(date: String, value: Double) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.updateField(date, "weight", value)
-            getDailyRecord(date)  // Refresh the daily record
-        }
-    }
-
-    fun prepareDailyChartData(date: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            val record = repository.getOrCreateRecord(date)
-            val dataPoints = listOf(
-                "공복" to record.fasting,
-                "아침 식전" to record.breakfastBefore,
-                "아침 식후" to record.breakfastAfter,
-                "점심 식전" to record.lunchBefore,
-                "점심 식후" to record.lunchAfter,
-                "저녁 식전" to record.dinnerBefore,
-                "저녁 식후" to record.dinnerAfter
-            )
-
-            val entries = dataPoints.mapIndexedNotNull { index, (type, value) ->
-                value?.let { Entry(index.toFloat(), it.toFloat(), type) }
-            }
-            _chartData.postValue(entries)
+            getDailyRecord(date)
         }
     }
 }
