@@ -35,7 +35,7 @@ class AlarmReceiver : BroadcastReceiver() {
         val notification = NotificationCompat.Builder(context, channelId)
             .setContentTitle("알림")
             .setContentText("혈당을 기록하세요!")
-            .setSmallIcon(R.drawable.icon_logo)
+            .setSmallIcon(R.drawable.icon_logo_1024)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setAutoCancel(true)
             .setContentIntent(pendingIntent)
