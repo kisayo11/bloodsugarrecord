@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/white"
+    android:background="#F8F8F8"
     android:padding="16dp">
 
     <!-- "등록" 버튼 -->
@@ -15,8 +15,8 @@
         android:fontFamily="@font/pretendard_bold"
         android:textSize="24sp"
         android:text="등록"
-        android:backgroundTint="@color/card_glucose_bg"
-        android:textColor="@android:color/black"
+        android:backgroundTint="@color/card_weight_bg"
+        android:textColor="@color/deep_blue"
         android:layout_marginBottom="16dp"/>
 
     <!-- 최근 진료 기록 리스트 -->

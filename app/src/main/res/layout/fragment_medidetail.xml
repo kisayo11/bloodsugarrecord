@@ -15,6 +15,7 @@
             android:id="@+id/tvRecordTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/pretendard_bold"
             android:text="진료 기록 상세"
             android:textSize="22sp"
             android:textStyle="bold"
@@ -26,6 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="병원명"
+            android:fontFamily="@font/pretendard_medium"
             android:textSize="16sp"
             android:layout_marginBottom="8dp"
             android:textColor="#555555" />
@@ -34,6 +36,7 @@
             android:id="@+id/tvDetailHospitalName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/pretendard_medium"
             android:background="@drawable/rounded_edittext"
             android:padding="12dp"
             android:layout_marginBottom="16dp"
@@ -43,6 +46,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/pretendard_medium"
             android:text="진료 날짜"
             android:textSize="16sp"
             android:layout_marginBottom="8dp"
@@ -51,6 +55,7 @@
         <TextView
             android:id="@+id/tvDetailDate"
             android:layout_width="match_parent"
+            android:fontFamily="@font/pretendard_medium"
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_edittext"
             android:padding="12dp"
@@ -62,6 +67,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="담당 의사"
+            android:fontFamily="@font/pretendard_medium"
             android:textSize="16sp"
             android:layout_marginBottom="8dp"
             android:textColor="#555555" />
@@ -70,6 +76,7 @@
             android:id="@+id/tvDetailDoctorName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/pretendard_medium"
             android:background="@drawable/rounded_edittext"
             android:padding="12dp"
             android:layout_marginBottom="16dp"
@@ -80,6 +87,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="처방 내용"
+            android:fontFamily="@font/pretendard_medium"
             android:textSize="16sp"
             android:layout_marginBottom="8dp"
             android:textColor="#555555" />
@@ -90,6 +98,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_edittext"
             android:padding="12dp"
+            android:fontFamily="@font/pretendard_medium"
             android:layout_marginBottom="16dp"
             android:textSize="16sp" />
 
@@ -98,6 +107,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="진료 노트"
+            android:fontFamily="@font/pretendard_medium"
             android:textSize="16sp"
             android:layout_marginBottom="8dp"
             android:textColor="#555555" />
@@ -108,6 +118,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_edittext"
             android:padding="12dp"
+            android:fontFamily="@font/pretendard_medium"
             android:layout_marginBottom="16dp"
             android:textSize="16sp" />
 
@@ -115,6 +126,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/pretendard_medium"
             android:text="다음 예약일"
             android:textSize="16sp"
             android:layout_marginBottom="8dp"
@@ -123,6 +135,7 @@
         <TextView
             android:id="@+id/tvDetailNextAppointment"
             android:layout_width="match_parent"
+            android:fontFamily="@font/pretendard_medium"
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_edittext"
             android:padding="12dp"
@@ -143,6 +156,7 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:text="수정"
+                android:backgroundTint="@color/strong_blue"
                 android:layout_marginEnd="8dp" />
 
             <Button
@@ -150,6 +164,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@color/strong_blue"
                 android:text="삭제" />
         </LinearLayout>
     </LinearLayout>

@@ -37,15 +37,10 @@ class AnalysisViewModel(application: Application) : AndroidViewModel(application
 
     fun loadChartData(periodDays: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            // 최근 periodDays 동안의 데이터 가져오기
             val records = dailyRecordDao.getRecordsForPeriod(periodDays)
-
-            // 라인 차트 데이터 변환
             val lineEntries = records.mapIndexed { index, record ->
-                // 예시: 날짜를 x축, 평균 혈당을 y축으로 사용
-                Entry(index.toFloat(), calculateAverageBloodSugar(record))
+               Entry(index.toFloat(), calculateAverageBloodSugar(record))
             }
-
             // 바 차트 데이터 변환
             val barEntries = listOf(
                 BarEntry(0f, records.mapNotNull { it.fasting }.average().toFloat()),
@@ -55,7 +50,6 @@ class AnalysisViewModel(application: Application) : AndroidViewModel(application
                 BarEntry(4f, records.mapNotNull { it.lunchAfter }.average().toFloat()),
                 BarEntry(5f, records.mapNotNull { it.dinnerBefore }.average().toFloat())
             )
-
             // UI 스레드에서 LiveData 업데이트
             withContext(Dispatchers.Main) {
                 _lineChartData.value = lineEntries

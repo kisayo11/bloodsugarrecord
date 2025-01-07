@@ -24,4 +24,19 @@
         <item name="android:textSize">10sp</item>
         <item name="android:textColor">@color/text_hint</item>
     </style>
+
+    <style name="CustomTimePickerTheme" parent="ThemeOverlay.MaterialComponents.TimePicker">
+        <item name="colorPrimary">@color/normal_blue</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorOnSurface">@color/deep_blue</item>
+        <item name="colorSecondary">@color/strong_blue</item>
+        <item name="android:windowBackground">@android:color/white</item>
+        <item name="materialButtonStyle">@style/CustomTimePickerButtonStyle</item>
+    </style>
+
+    <style name="CustomTimePickerButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/normal_blue</item>
+        <item name="rippleColor">@color/lighter_blue</item>
+    </style>
+
     </resources>

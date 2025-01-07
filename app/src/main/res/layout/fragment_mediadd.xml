@@ -1,8 +1,8 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    android:background="#F8F8F8">
+    android:background="#F8F8F8"
+    android:padding="16dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,141 +14,154 @@
             android:id="@+id/tvRecordTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/pretendard_bold"
             android:text="진료 기록 입력"
-            android:textSize="22sp"
-            android:textStyle="bold"
             android:textColor="#333333"
-            android:layout_marginBottom="16dp" />
+            android:textSize="22sp"
+            android:textStyle="bold" />
 
         <!-- 병원명 -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="병원명"
-            android:textSize="16sp"
             android:layout_marginBottom="8dp"
-            android:textColor="#555555" />
+            android:fontFamily="@font/pretendard_medium"
+            android:text="병원명"
+            android:textColor="#555555"
+            android:textSize="16sp" />
 
         <EditText
             android:id="@+id/etHospitalName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="예: 서울대학교병원"
-            android:background="@drawable/rounded_edittext"
-            android:padding="12dp"
             android:layout_marginBottom="16dp"
-            android:inputType="text" />
+            android:background="@drawable/rounded_edittext"
+            android:fontFamily="@font/pretendard_medium"
+            android:hint="예: 서울대학교병원"
+            android:inputType="text"
+            android:padding="12dp" />
 
         <!-- 진료 날짜 -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="진료 날짜"
-            android:textSize="16sp"
             android:layout_marginBottom="8dp"
-            android:textColor="#555555" />
+            android:fontFamily="@font/pretendard_medium"
+            android:text="진료 날짜"
+            android:textColor="#555555"
+            android:textSize="16sp" />
 
         <EditText
             android:id="@+id/etDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="YYYY-MM-DD"
-            android:background="@drawable/rounded_edittext"
-            android:padding="12dp"
             android:layout_marginBottom="16dp"
-            android:focusable="false"
+            android:background="@drawable/rounded_edittext"
             android:clickable="true"
-            android:onClick="showDatePicker" />
+            android:focusable="false"
+            android:fontFamily="@font/pretendard_medium"
+            android:hint="YYYY-MM-DD"
+            android:onClick="showDatePicker"
+            android:padding="12dp" />
 
         <!-- 담당 의사 -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="담당 의사"
-            android:textSize="16sp"
             android:layout_marginBottom="8dp"
-            android:textColor="#555555" />
+            android:fontFamily="@font/pretendard_medium"
+            android:text="담당 의사"
+            android:textColor="#555555"
+            android:textSize="16sp" />
 
         <EditText
             android:id="@+id/etDoctorName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint=""
-            android:background="@drawable/rounded_edittext"
-            android:padding="12dp"
             android:layout_marginBottom="16dp"
-            android:inputType="text" />
+            android:background="@drawable/rounded_edittext"
+            android:fontFamily="@font/pretendard_medium"
+            android:hint="홍길동"
+            android:inputType="text"
+            android:padding="12dp" />
 
         <!-- 처방 내용 -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="처방 내용"
-            android:textSize="16sp"
             android:layout_marginBottom="8dp"
-            android:textColor="#555555" />
+            android:fontFamily="@font/pretendard_medium"
+            android:text="처방 내용"
+            android:textColor="#555555"
+            android:textSize="16sp" />
 
         <EditText
             android:id="@+id/etPrescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="예: 고혈압 약 1일 1회 복용"
-            android:background="@drawable/rounded_edittext"
-            android:padding="12dp"
             android:layout_marginBottom="16dp"
-            android:inputType="textMultiLine" />
+            android:background="@drawable/rounded_edittext"
+            android:fontFamily="@font/pretendard_medium"
+            android:hint="예: 당뇨 약 1일 1회 복용"
+            android:inputType="textMultiLine"
+            android:padding="12dp" />
 
         <!-- 진료 노트 -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="진료 노트"
-            android:textSize="16sp"
             android:layout_marginBottom="8dp"
-            android:textColor="#555555" />
+            android:fontFamily="@font/pretendard_medium"
+            android:text="진료 노트"
+            android:textColor="#555555"
+            android:textSize="16sp" />
 
         <EditText
             android:id="@+id/etNotes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="추가 메모를 입력하세요"
-            android:background="@drawable/rounded_edittext"
-            android:padding="12dp"
             android:layout_marginBottom="16dp"
-            android:inputType="textMultiLine" />
+            android:background="@drawable/rounded_edittext"
+            android:fontFamily="@font/pretendard_medium"
+            android:hint="추가 메모를 입력하세요"
+            android:inputType="textMultiLine"
+            android:padding="12dp" />
 
         <!-- 다음 예약일 -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="다음 예약일"
-            android:textSize="16sp"
             android:layout_marginBottom="8dp"
-            android:textColor="#555555" />
+            android:fontFamily="@font/pretendard_medium"
+            android:text="다음 예약일"
+            android:textColor="#555555"
+            android:textSize="16sp" />
 
         <EditText
             android:id="@+id/etNextAppointment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="YYYY-MM-DD"
-            android:background="@drawable/rounded_edittext"
-            android:padding="12dp"
             android:layout_marginBottom="16dp"
-            android:focusable="false"
+            android:background="@drawable/rounded_edittext"
             android:clickable="true"
-            android:onClick="showDatePicker" />
+            android:focusable="false"
+            android:fontFamily="@font/pretendard_medium"
+            android:hint="YYYY-MM-DD"
+            android:onClick="showDatePicker"
+            android:padding="12dp" />
 
         <!-- 저장 버튼 -->
         <Button
             android:id="@+id/btnSave"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="저장"
-            android:backgroundTint="@color/cardview_shadow_start_color"
-            android:textColor="#FFFFFF"
-            android:textSize="16sp"
-            android:padding="12dp"
             android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp" />
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="@color/cardview_shadow_start_color"
+            android:padding="12dp"
+            android:text="저장"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp" />
     </LinearLayout>
 </ScrollView>

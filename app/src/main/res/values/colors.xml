@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
@@ -14,7 +14,7 @@
     <color name="status_low">#2196F3</color>
 
     <!-- 카드 배경 색상 -->
-    <color name="card_weight_bg">#fff5ee</color>
+    <color name="card_weight_bg">#c3d2ea</color>
     <color name="card_glucose_bg">#f8f8ff</color>
 
     <!-- 칩 색상 -->
@@ -22,5 +22,24 @@
     <color name="chip_text_default">#FFFFFF</color>
     <color name="chip_background_notes">#FFE0E0</color>
     <color name="chip_text_notes">#FF0000</color>
+
+    <!-- 바텀 네비게이션 뷰 -->
+    <color name="selected_color">#172a88</color>
+    <color name="unselected_color">#8c8791</color>
+
+    <!-- 블루계열 -->
+    <color name="deep_blue">#141e3e</color>
+    <color name="strong_blue">#172a88</color>
+    <color name="normal_blue">#3e59a0</color>
+    <color name="light_blue">#6f85bf</color>
+    <color name="lighter_blue">#c3d2ea</color>
+
+    <!-- analysis chips setting   -->
+    <color name="chip_selected_text_color">#FFFFFF</color>
+    <color name="chip_default_text_color">#000000</color>
+    <color name="chip_selected_bg_color">#3e59a0</color>
+    <color name="chip_default_bg_color">#c3d2ea</color>
+
+
 
 </resources>

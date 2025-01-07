@@ -6,7 +6,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.github.mikephil.charting.data.Entry
-import com.kisayo.bloodsugarrecord.data.dao.DailyRecordDao
 import com.kisayo.bloodsugarrecord.data.database.GlucoseDatabase
 import com.kisayo.bloodsugarrecord.data.model.DailyRecord
 import com.kisayo.bloodsugarrecord.data.repository.DailyRecordRepository

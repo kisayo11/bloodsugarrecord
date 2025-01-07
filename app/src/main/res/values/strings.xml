@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">나의 혈당 수첩</string>
+    <string name="time_picker_hour">시간</string>
+    <string name="time_picker_minute">분</string>
 </resources>

@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F0F4F8">
+    android:background="#F8F8F8">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -30,6 +30,9 @@
                     style="@style/Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    app:chipBackgroundColor="@color/chip_background"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:textColor="@color/chip_text_color"
                     android:text="1주"/>
 
                 <com.google.android.material.chip.Chip
@@ -37,6 +40,9 @@
                     style="@style/Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    app:chipBackgroundColor="@color/chip_background"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:textColor="@color/chip_text_color"
                     android:text="1개월"/>
 
                 <com.google.android.material.chip.Chip
@@ -44,6 +50,9 @@
                     style="@style/Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    app:chipBackgroundColor="@color/chip_background"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:textColor="@color/chip_text_color"
                     android:text="3개월"/>
 
                 <com.google.android.material.chip.Chip
@@ -51,6 +60,9 @@
                     style="@style/Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    app:chipBackgroundColor="@color/chip_background"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:textColor="@color/chip_text_color"
                     android:text="6개월"/>
 
                 <com.google.android.material.chip.Chip
@@ -58,6 +70,9 @@
                     style="@style/Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    app:chipBackgroundColor="@color/chip_background"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:textColor="@color/chip_text_color"
                     android:text="1년"/>
 
                 <com.google.android.material.chip.Chip
@@ -65,6 +80,9 @@
                     style="@style/Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    app:chipBackgroundColor="@color/chip_background"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:textColor="@color/chip_text_color"
                     android:text="전체"/>
             </com.google.android.material.chip.ChipGroup>
         </HorizontalScrollView>

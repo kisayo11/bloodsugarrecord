@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:background="#F8F8F8"
         android:padding="16dp">
 
         <!-- 날짜 선택 -->
@@ -516,7 +517,7 @@
                             android:fontFamily="@font/pretendard_bold"
                             android:text="155"
                             android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
-                            android:textColor="?attr/colorPrimary"/>
+                            android:textColor="@color/strong_blue"/>
                     </LinearLayout>
                 </LinearLayout>
 

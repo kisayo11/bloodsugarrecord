@@ -3,7 +3,6 @@ package com.kisayo.bloodsugarrecord.fragments
 import android.app.AlarmManager
 import android.app.AlertDialog
 import android.app.PendingIntent
-import android.app.TimePickerDialog
 import android.content.ClipData
 import android.content.Context
 import android.content.Intent
@@ -12,7 +11,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,7 +21,10 @@ import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.room.Room
+import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.android.material.timepicker.TimeFormat
 import com.kisayo.bloodsugarrecord.Adapters.AlarmReceiver
+import com.kisayo.bloodsugarrecord.R
 import com.kisayo.bloodsugarrecord.data.dao.DailyRecordDao
 import com.kisayo.bloodsugarrecord.data.database.GlucoseDatabase
 import com.kisayo.bloodsugarrecord.databinding.DialogSecureResetBinding
@@ -32,8 +33,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
-import java.io.FileWriter
-import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -157,13 +156,10 @@ class SettingsFragment : Fragment() {
 
     private fun showSecureResetDialog() {
         val dialogBinding = DialogSecureResetBinding.inflate(layoutInflater)
-
         // 6자리 랜덤 숫자 생성
         val randomCode = (100000..999999).random()
-
         with(dialogBinding) {
             tvRandomCode.text = "다음 코드를 입력하세요: $randomCode"
-
             AlertDialog.Builder(requireContext())
                 .setTitle("데이터 초기화")
                 .setMessage("데이터를 초기화하려면 아래 표시된 코드를 정확히 입력하세요.")
@@ -229,13 +225,19 @@ class SettingsFragment : Fragment() {
         calendar: Calendar,
         onTimeSet: (Int, Int) -> Unit
     ) {
-        val timePickerDialog = TimePickerDialog(
-            requireContext(), { _, hourOfDay, minute ->
-                onTimeSet(hourOfDay, minute)
-            }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true
-        )
-        timePickerDialog.setTitle("$label")
-        timePickerDialog.show()
+        val picker = MaterialTimePicker.Builder()
+            .setTimeFormat(TimeFormat.CLOCK_24H)
+            .setHour(calendar.get(Calendar.HOUR_OF_DAY))
+            .setMinute(calendar.get(Calendar.MINUTE))
+            .setTitleText(label)
+            .setTheme(R.style.CustomTimePickerTheme)
+            .build()
+
+        picker.addOnPositiveButtonClickListener {
+            onTimeSet(picker.hour, picker.minute)
+        }
+
+        picker.show(childFragmentManager, "TIME_PICKER")
     }
 
     // 알람을 활성화하는 함수

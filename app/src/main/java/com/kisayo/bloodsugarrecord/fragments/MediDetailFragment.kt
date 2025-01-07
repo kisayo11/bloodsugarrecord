@@ -5,10 +5,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.kisayo.bloodsugarrecord.R
 import com.kisayo.bloodsugarrecord.data.model.MedicalRecord
 import com.kisayo.bloodsugarrecord.databinding.FragmentMedidetailBinding
 import com.kisayo.bloodsugarrecord.viewmodel.MedicalRecordViewModel
@@ -82,7 +84,16 @@ class MediDetailFragment : Fragment() {
                 }
             }
             .setNegativeButton("취소", null)
-            .show()
+            .show().also { dialog ->
+                // "삭제" 버튼 색상 변경
+                dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(
+                    ContextCompat.getColor(requireContext(), R.color.strong_blue)
+                )
+                // "취소" 버튼 색상 변경
+                dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(
+                    ContextCompat.getColor(requireContext(), R.color.strong_blue)
+                )
+            }
     }
 
 

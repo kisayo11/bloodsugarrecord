@@ -79,7 +79,14 @@ class RecordsAdapter(
                         Toast.makeText(context, "선택한 날짜의 기록이 삭제되었습니다.", Toast.LENGTH_SHORT).show()
                     }
                     .setNegativeButton("아니요", null)
-                    .show()
+                    .show().also { dialog ->
+                        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(
+                            ContextCompat.getColor(itemView.context, R.color.strong_blue)
+                        )
+                        dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(
+                            ContextCompat.getColor(itemView.context, R.color.strong_blue)
+                        )
+                    }
             }
         }
 

@@ -2,7 +2,6 @@ package com.kisayo.bloodsugarrecord.fragments
 
 import android.app.AlertDialog
 import android.content.res.ColorStateList
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,7 +10,6 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.TextView
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -25,9 +23,7 @@ import com.kisayo.bloodsugarrecord.R
 import com.kisayo.bloodsugarrecord.data.model.DailyRecord
 import com.kisayo.bloodsugarrecord.databinding.FragmentHomeBinding
 import com.kisayo.bloodsugarrecord.viewmodel.HomeViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -42,9 +38,7 @@ class HomeFragment : Fragment() {
     private var currentDate: Calendar = Calendar.getInstance()
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val view = binding.root
@@ -87,7 +81,11 @@ class HomeFragment : Fragment() {
             card.setOnClickListener {
                 showGlucoseInputDialog(type) { value ->
                     lifecycleScope.launch {
-                        viewModel.updateGlucoseRecord(dateFormat.format(currentDate.time), type, value)
+                        viewModel.updateGlucoseRecord(
+                            dateFormat.format(currentDate.time),
+                            type,
+                            value
+                        )
                         updateDate()
                     }
                 }
@@ -103,24 +101,27 @@ class HomeFragment : Fragment() {
         val dialogView = layoutInflater.inflate(R.layout.dialog_glucose_input, null)
         val editText = dialogView.findViewById<EditText>(R.id.editTextGlucose)
 
-        AlertDialog.Builder(requireContext())
-            .setTitle("$type 혈당 기록")
-            .setView(dialogView)
+        AlertDialog.Builder(requireContext()).setTitle("$type 혈당 기록").setView(dialogView)
             .setPositiveButton("저장") { _, _ ->
                 val value = editText.text.toString().toIntOrNull()
                 value?.let { onSave(it) }
+            }.setNegativeButton("취소", null).show().also { dialog ->
+                // "저장" 버튼 색상 변경
+                dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(
+                    ContextCompat.getColor(requireContext(), R.color.strong_blue)
+                )
+                // "취소" 버튼 색상 변경
+                dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(
+                    ContextCompat.getColor(requireContext(), R.color.strong_blue)
+                )
             }
-            .setNegativeButton("취소", null)
-            .show()
     }
 
     private fun showWeightInputDialog() {
         val dialogView = layoutInflater.inflate(R.layout.dialog_weight_input, null)
         val editText = dialogView.findViewById<EditText>(R.id.editTextWeight)
 
-        AlertDialog.Builder(requireContext())
-            .setTitle("체중 기록")
-            .setView(dialogView)
+        AlertDialog.Builder(requireContext()).setTitle("체중 기록").setView(dialogView)
             .setPositiveButton("저장") { _, _ ->
                 val value = editText.text.toString().toDoubleOrNull()
                 value?.let {
@@ -129,9 +130,17 @@ class HomeFragment : Fragment() {
                         updateDate()
                     }
                 }
+            }.setNegativeButton("취소", null).show().also { dialog ->
+                // "저장" 버튼 색상 변경
+                dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(
+                    ContextCompat.getColor(requireContext(), R.color.strong_blue)
+                )
+                // "취소" 버튼 색상 변경
+                dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(
+                    ContextCompat.getColor(requireContext(), R.color.strong_blue)
+                )
             }
-            .setNegativeButton("취소", null)
-            .show()
+
     }
 
     private fun updateGlucoseCard(valueTextView: TextView, progressBar: ProgressBar, value: Int?) {
@@ -190,12 +199,36 @@ class HomeFragment : Fragment() {
 
     private fun updateUIWithDailyRecord(record: DailyRecord) {
         updateGlucoseCard(binding.tvFastingValue, binding.statusIndicator, record.fasting)
-        updateGlucoseCard(binding.tvBreakfastBeforeValue, binding.statusIndicatorBreakfastBefore, record.breakfastBefore)
-        updateGlucoseCard(binding.tvBreakfastAfterValue, binding.statusIndicatorBreakfastAfter, record.breakfastAfter)
-        updateGlucoseCard(binding.tvLunchBeforeValue, binding.statusIndicatorLunchBefore, record.lunchBefore)
-        updateGlucoseCard(binding.tvLunchAfterValue, binding.statusIndicatorLunchAfter, record.lunchAfter)
-        updateGlucoseCard(binding.tvDinnerBeforeValue, binding.statusIndicatorDinnerBefore, record.dinnerBefore)
-        updateGlucoseCard(binding.tvDinnerAfterValue, binding.statusIndicatorDinnerAfter, record.dinnerAfter)
+        updateGlucoseCard(
+            binding.tvBreakfastBeforeValue,
+            binding.statusIndicatorBreakfastBefore,
+            record.breakfastBefore
+        )
+        updateGlucoseCard(
+            binding.tvBreakfastAfterValue,
+            binding.statusIndicatorBreakfastAfter,
+            record.breakfastAfter
+        )
+        updateGlucoseCard(
+            binding.tvLunchBeforeValue,
+            binding.statusIndicatorLunchBefore,
+            record.lunchBefore
+        )
+        updateGlucoseCard(
+            binding.tvLunchAfterValue,
+            binding.statusIndicatorLunchAfter,
+            record.lunchAfter
+        )
+        updateGlucoseCard(
+            binding.tvDinnerBeforeValue,
+            binding.statusIndicatorDinnerBefore,
+            record.dinnerBefore
+        )
+        updateGlucoseCard(
+            binding.tvDinnerAfterValue,
+            binding.statusIndicatorDinnerAfter,
+            record.dinnerAfter
+        )
         binding.tvWeightValue.text = record.weight?.let { String.format("%.1f kg", it) } ?: "-- kg"
     }
 
@@ -251,8 +284,8 @@ class HomeFragment : Fragment() {
         }
 
         val dataSet = LineDataSet(entries, "공복혈당").apply {
-            color = ContextCompat.getColor(requireContext(), R.color.black)
-            setCircleColor(ContextCompat.getColor(requireContext(), R.color.black))
+            color = ContextCompat.getColor(requireContext(), R.color.strong_blue)
+            setCircleColor(ContextCompat.getColor(requireContext(), R.color.strong_blue))
             lineWidth = 2f
             circleRadius = 4f
             setDrawValues(true)
