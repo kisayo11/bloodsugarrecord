@@ -35,10 +35,10 @@ class AlarmReceiver : BroadcastReceiver() {
         val notification = NotificationCompat.Builder(context, channelId)
             .setContentTitle("알림")
             .setContentText("혈당을 기록하세요!")
-            .setSmallIcon(R.drawable.diabetes_100) // 앱의 알림 아이콘으로 변경하세요
+            .setSmallIcon(R.drawable.icon_logo)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setAutoCancel(true)
-            .setContentIntent(pendingIntent) // 여기에 PendingIntent 추가
+            .setContentIntent(pendingIntent)
             .build()
 
         notificationManager.notify(System.currentTimeMillis().toInt(), notification)
