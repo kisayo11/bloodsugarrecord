@@ -40,6 +40,11 @@
     <color name="chip_selected_bg_color">#3e59a0</color>
     <color name="chip_default_bg_color">#c3d2ea</color>
 
+    <color name="primary">@color/blue_500</color>
+    <color name="blue_500">#2196F3</color>
+    <color name="gray_500">#9E9E9E</color>
+    <color name="gray_700">#616161</color>
+
 
 
 </resources>

@@ -5,6 +5,7 @@ import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
@@ -13,6 +14,7 @@ import com.kisayo.bloodsugarrecord.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var alarmManagerHelper: AlarmManagerHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,16 +23,18 @@ class MainActivity : AppCompatActivity() {
 
         setupNavigation()
 
-        // 알림 채널 설정 (안드로이드 8.0 이상)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(
-                "alarm_channel",
-                "Alarm Notifications",
-                NotificationManager.IMPORTANCE_HIGH
-            )
-            val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.createNotificationChannel(channel)
+
+
+        alarmManagerHelper = AlarmManagerHelper(this)
+        alarmManagerHelper.createNotificationChannel()
+        alarmManagerHelper.checkAndRequestPermissions(this) { granted ->
+            if (granted) {
+                Log.d("Permission", "All necessary permissions granted")
+            } else {
+                Log.d("Permission", "Some permissions were denied")
+            }
         }
+
     }
 
     private fun setupNavigation() {
