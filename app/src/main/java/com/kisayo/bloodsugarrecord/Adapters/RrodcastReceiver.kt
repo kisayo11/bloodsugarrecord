@@ -32,10 +32,18 @@ class AlarmReceiver : BroadcastReceiver() {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
+        val notificationIcon = if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.O) {
+            // Android 8.0 이하에서 흑백 아이콘
+            R.drawable.icon_logo
+        } else {
+            // Android 8.1 이상에서는 컬러 아이콘
+            R.drawable.icon_logo_1024
+        }
+
         val notification = NotificationCompat.Builder(context, channelId)
             .setContentTitle("알림")
             .setContentText("혈당을 기록하세요!")
-            .setSmallIcon(R.drawable.icon_logo_1024)
+            .setSmallIcon(notificationIcon)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setAutoCancel(true)
             .setContentIntent(pendingIntent)
