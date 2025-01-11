@@ -51,7 +51,16 @@ class MediDetailFragment : Fragment() {
 
         // 수정 버튼 클릭
         binding.btnEdit.setOnClickListener {
-            // 아직 세팅안됨
+            visitDate?.let{ date ->
+                val bundle = Bundle().apply {
+                putString("visitDate", date)
+                putBoolean("isEdit", true)
+                }
+                findNavController().navigate(
+                    R.id.action_mediDetailFragment_to_mediAddFragment,
+                    bundle
+                )
+            }
         }
 
         // 삭제 버튼 클릭

@@ -17,24 +17,34 @@
         android:id="@+id/navigation_medinote"
         android:name="com.kisayo.bloodsugarrecord.fragments.MedinoteFragment"
         android:label="메디노트">
+        <!-- 메디노트에서 추가화면으로 -->
         <action
             android:id="@+id/action_medinoteFragment_to_mediAddFragment"
             app:destination="@id/mediAddFragment" />
+        <!-- 메디노트에서 상세화면으로 -->
         <action
             android:id="@+id/action_medinoteFragment_to_mediDetailFragment"
             app:destination="@id/mediDetailFragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/mediAddFragment"
-        android:name="com.kisayo.bloodsugarrecord.fragments.MediAddFragment"
-        android:label="진료 기록 추가" />
-
-    <!-- mediDetailFragment를 밖으로 이동 -->
-    <fragment
         android:id="@+id/mediDetailFragment"
         android:name="com.kisayo.bloodsugarrecord.fragments.MediDetailFragment"
-        android:label="진료 기록 상세" />
+        android:label="진료 기록 상세">
+
+        <action
+            android:id="@+id/action_mediDetailFragment_to_mediAddFragment"
+            app:destination="@id/mediAddFragment"
+            app:popUpTo="@id/navigation_medinote"
+            app:popUpToInclusive="false"
+            />
+    </fragment>
+
+    <!-- 입력/수정 fragment 정의 -->
+    <fragment
+        android:id="@+id/mediAddFragment"
+        android:name="com.kisayo.bloodsugarrecord.fragments.MediAddFragment"
+        android:label="진료 기록 입력" />
 
     <fragment
         android:id="@+id/navigation_analysis"

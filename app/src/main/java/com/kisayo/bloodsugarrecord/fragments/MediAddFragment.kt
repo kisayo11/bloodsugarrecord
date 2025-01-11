@@ -25,6 +25,16 @@ class MediAddFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var viewModel: MedicalRecordViewModel
 
+    private var isEditMode = false
+    private var visitDate: String? = null
+
+        override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
+            // bundle에서 데이터 받기
+            isEditMode = arguments?.getBoolean("isEdit") ?: false
+            visitDate = arguments?.getString("visitDate")
+        }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -40,6 +50,22 @@ class MediAddFragment : Fragment() {
         // ViewModel 초기화
         viewModel = ViewModelProvider(this)[MedicalRecordViewModel::class.java]
 
+        // 수정 모드일 경우 기존 데이터 불러오기
+        if (isEditMode && visitDate != null) {
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewModel.getRecordByDate(visitDate!!)?.let { record ->
+                    // 기존 데이터를 입력 필드에 설정
+                    binding.apply {
+                        etHospitalName.setText(record.hospitalName)
+                        etDate.setText(record.visitDate)
+                        etDoctorName.setText(record.doctorName)
+                        etPrescription.setText(record.prescription)
+                        etNotes.setText(record.notes)
+                        etNextAppointment.setText(record.nextAppointment)
+                    }
+                }
+            }
+        }
         // DatePicker 설정
         setupDatePickers()
 
@@ -71,7 +97,6 @@ class MediAddFragment : Fragment() {
             return
         }
 
-        // 코루틴으로 감싸서 백그라운드에서 실행
         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
             try {
                 val record = MedicalRecord(
@@ -83,11 +108,20 @@ class MediAddFragment : Fragment() {
                     nextAppointment = nextAppointment
                 )
 
-                viewModel.insert(record)
+                // 수정 모드에 따라 insert 또는 update 실행
+                if (isEditMode) {
+                    viewModel.update(record)
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(context, "수정되었습니다", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    viewModel.insert(record)
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(context, "저장되었습니다", Toast.LENGTH_SHORT).show()
+                    }
+                }
 
-                // UI 업데이트는 메인 스레드에서 실행
                 withContext(Dispatchers.Main) {
-                    Toast.makeText(context, "저장되었습니다", Toast.LENGTH_SHORT).show()
                     findNavController().navigateUp()
                 }
             } catch (e: Exception) {
