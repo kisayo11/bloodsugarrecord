@@ -5,6 +5,10 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
+enum class InsulinStockStatus {
+    UNUSED, IN_USE, COMPLETED, DISCARDED
+}
+
 @Entity(tableName = "insulin_stocks")
 data class InsulinStock(
     @PrimaryKey(autoGenerate = true)
@@ -16,7 +20,7 @@ data class InsulinStock(
     val total_amount: Int, // 총 용량
     val remaining_amount: Int, // 남은 용량
 
-    @ColumnInfo(defaultValue = "UNUSED")
+
     val status: String, // UNUSED, IN_USE, COMPLETED, DISCARDED
 
     val discard_date: String?, //폐기일
@@ -51,4 +55,10 @@ data class InsulinInjection(
 
     val created_at: Long = System.currentTimeMillis(),
     val updated_at: Long = System.currentTimeMillis()
+)
+
+@Entity(tableName = "deletion_reasons")
+data class DeletionReason(
+    @PrimaryKey val stockId: Long,
+    val reason: String
 )

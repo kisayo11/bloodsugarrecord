@@ -22,17 +22,26 @@ import com.github.mikephil.charting.formatter.ValueFormatter
 import com.kisayo.bloodsugarrecord.R
 import com.kisayo.bloodsugarrecord.data.model.DailyRecord
 import com.kisayo.bloodsugarrecord.databinding.FragmentHomeBinding
+import com.kisayo.bloodsugarrecord.ui.insulin.components.InsulinCard
 import com.kisayo.bloodsugarrecord.viewmodel.HomeViewModel
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.mutableStateOf
+import com.kisayo.bloodsugarrecord.data.model.InsulinInjection
+import com.kisayo.bloodsugarrecord.viewmodel.InsulinViewModel
+import kotlinx.coroutines.flow.collect
 
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var viewModel: HomeViewModel
+    private lateinit var insulinViewModel: InsulinViewModel
 
     private val dateFormat = SimpleDateFormat("yyyy년 M월 d일", Locale.getDefault())
     private var currentDate: Calendar = Calendar.getInstance()
@@ -44,15 +53,26 @@ class HomeFragment : Fragment() {
         val view = binding.root
 
         viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+        insulinViewModel = ViewModelProvider(this).get(InsulinViewModel::class.java)
+
 
         binding.tvDate.text = dateFormat.format(currentDate.time)
         binding.calendarView.visibility = View.GONE
+
+        // Compose 설정
+        binding.insulinCardCompose.setContent {
+            InsulinCard(
+                viewModel = insulinViewModel
+            )
+        }
+
 
         setupListeners()
         updateDate()
 
         return view
     }
+
 
     private fun setupListeners() {
         binding.tvDate.setOnClickListener { toggleCalendarVisibility() }
@@ -184,9 +204,9 @@ class HomeFragment : Fragment() {
     private fun updateDate() {
         val dateString = dateFormat.format(currentDate.time)
         binding.tvDate.text = dateString
-        Log.d("HomeFragment", "Date updated to: $dateString")
 
         viewModel.getDailyRecord(dateString)
+        insulinViewModel.updateDate(dateString)
 
         viewModel.dailyRecord.observe(viewLifecycleOwner) { dailyRecord ->
             updateUIWithDailyRecord(dailyRecord)
@@ -195,6 +215,7 @@ class HomeFragment : Fragment() {
         viewModel.chartData.observe(viewLifecycleOwner) { entries ->
             setupDailyChart(entries)
         }
+
     }
 
     private fun updateUIWithDailyRecord(record: DailyRecord) {

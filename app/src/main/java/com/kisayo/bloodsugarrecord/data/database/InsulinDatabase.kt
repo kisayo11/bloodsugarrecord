@@ -5,15 +5,17 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.kisayo.bloodsugarrecord.data.dao.InsulinRecordDao
+import com.kisayo.bloodsugarrecord.data.model.DeletionReason
 import com.kisayo.bloodsugarrecord.data.model.InsulinInjection
 import com.kisayo.bloodsugarrecord.data.model.InsulinStock
 
 @Database(
     entities = [
         InsulinStock::class,
-        InsulinInjection::class
+        InsulinInjection::class,
+        DeletionReason::class
     ],
-    version = 1
+    version = 2
 )
 abstract class InsulinDatabase : RoomDatabase(){
   abstract fun insulinRecordDao() : InsulinRecordDao
