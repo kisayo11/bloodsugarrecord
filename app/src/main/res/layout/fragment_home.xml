@@ -419,6 +419,7 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
+
             <!-- 저녁 식후 -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardDinnerAfter"
@@ -469,6 +470,19 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
         </GridLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+            <!-- Compose 인슐린 카드 -->
+            <androidx.compose.ui.platform.ComposeView
+                android:id="@+id/insulin_card_compose"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+        </LinearLayout>
 
         <!-- 공복 추적 차트 -->
         <com.google.android.material.card.MaterialCardView
@@ -528,4 +542,5 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
+
 </androidx.core.widget.NestedScrollView>

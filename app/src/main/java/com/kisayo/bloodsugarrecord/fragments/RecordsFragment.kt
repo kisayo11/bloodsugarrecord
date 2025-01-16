@@ -44,8 +44,10 @@ class RecordsFragment : Fragment() {
                 binding.rvDailyRecords.visibility = View.VISIBLE
                 recordsAdapter = RecordsAdapter(
                     records = records,
+                    context = requireContext(),
                     onNotesClickListener = { record -> showNotesDialog(record) },
-                    onDeleteClickListener = { record -> viewModel.deleteRecord(record.date) }
+                    onDeleteClickListener = { record, insulinAmount ->
+                        viewModel.deleteRecord(record.date, insulinAmount) }
                 )
                 binding.rvDailyRecords.adapter = recordsAdapter
             }

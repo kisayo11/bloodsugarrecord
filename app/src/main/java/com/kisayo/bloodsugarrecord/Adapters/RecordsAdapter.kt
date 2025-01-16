@@ -1,25 +1,41 @@
 package com.kisayo.bloodsugarrecord.Adapters
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.kisayo.bloodsugarrecord.R
+import com.kisayo.bloodsugarrecord.data.dao.InsulinRecordDao
+import com.kisayo.bloodsugarrecord.data.database.InsulinDatabase
 import com.kisayo.bloodsugarrecord.data.model.DailyRecord
+import com.kisayo.bloodsugarrecord.data.model.InsulinInjection
 import com.kisayo.bloodsugarrecord.databinding.ItemDailyRecordBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 
 class RecordsAdapter(
     private val records: List<DailyRecord>,
+    private val context: Context,
     private val onNotesClickListener: (DailyRecord) -> Unit,
-    private val onDeleteClickListener: (DailyRecord) -> Unit
+    private val onDeleteClickListener: (DailyRecord, Int?) -> Unit
 ) : RecyclerView.Adapter<RecordsAdapter.RecordViewHolder>() {
+
+    private val insulinRecordDao: InsulinRecordDao = InsulinDatabase.getDatabase(context).insulinRecordDao()
 
     inner class RecordViewHolder(val binding: ItemDailyRecordBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(record: DailyRecord) {
+        val lifecycleScope = CoroutineScope(Dispatchers.Main + SupervisorJob())
+        var collectJob: Job? = null
+
+        fun bind(record: DailyRecord, insulinInjection: InsulinInjection? ) {
             // 날짜 설정
             binding.tvDate.text = record.date
 
@@ -51,6 +67,8 @@ class RecordsAdapter(
             // 체중
             binding.tvWeight.text = record.weight?.let { "$it kg" } ?: " -- "
 
+            binding.tvInsulin.text = insulinInjection?.injection_amount?.let { "$it IU" } ?: "--"
+
             // 특이사항 칩
             binding.chipNotes.apply {
                 if (record.notes.isNullOrBlank()) {
@@ -74,7 +92,7 @@ class RecordsAdapter(
                     .setTitle("기록 삭제")
                     .setMessage("이 날짜의 기록을 삭제하시겠습니까?")
                     .setPositiveButton("네") { _, _ ->
-                        onDeleteClickListener(record)
+                        onDeleteClickListener(record, insulinInjection?.injection_amount)
                         val context = itemView.context
                         Toast.makeText(context, "선택한 날짜의 기록이 삭제되었습니다.", Toast.LENGTH_SHORT).show()
                     }
@@ -134,7 +152,19 @@ class RecordsAdapter(
     }
 
     override fun onBindViewHolder(holder: RecordViewHolder, position: Int) {
-        holder.bind(records[position])
+        val record = records[position]
+        val date = record.date
+
+        // 이전 collectJob이 있으면 취소
+        holder.collectJob?.cancel()
+
+        // 새로운 collectJob 생성
+        holder.collectJob = holder.lifecycleScope.launch {
+            insulinRecordDao.getInjectionsByDate(date).collect { injections ->
+                val injection = injections.firstOrNull()
+                holder.bind(record, injection)
+            }
+        }
     }
 
     override fun getItemCount() = records.size

@@ -5,6 +5,10 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
+enum class InsulinStockStatus {
+    UNUSED, IN_USE, COMPLETED, DISCARDED
+}
+
 @Entity(tableName = "insulin_stocks")
 data class InsulinStock(
     @PrimaryKey(autoGenerate = true)
@@ -16,7 +20,7 @@ data class InsulinStock(
     val total_amount: Int, // 총 용량
     val remaining_amount: Int, // 남은 용량
 
-    @ColumnInfo(defaultValue = "UNUSED")
+
     val status: String, // UNUSED, IN_USE, COMPLETED, DISCARDED
 
     val discard_date: String?, //폐기일
@@ -29,6 +33,7 @@ data class InsulinStock(
 
 @Entity(
     tableName = "insulin_injections",
+    primaryKeys = ["date"],
     foreignKeys = [
         ForeignKey(
             entity = InsulinStock::class,
@@ -39,16 +44,18 @@ data class InsulinStock(
     ]
 )
 data class InsulinInjection(
-    @PrimaryKey(autoGenerate = true)
-    val injection_id: Long = 0,
-
-    val stock_id: Long, //InsulinStock 참조
-    val date: String, // 기록한 날짜
-    val injection_time: String, // 투약 시간
-    val injection_amount: Int,  // 투여량
-    val injection_site: String, // 주사 부위
-    val notes: String?, // 특이사항
-
+    val stock_id: Long,
+    val date: String,
+    val injection_time: String,
+    val injection_amount: Int,
+    val injection_site: String,
+    val notes: String?,
     val created_at: Long = System.currentTimeMillis(),
     val updated_at: Long = System.currentTimeMillis()
+)
+
+@Entity(tableName = "deletion_reasons")
+data class DeletionReason(
+    @PrimaryKey val stockId: Long,
+    val reason: String
 )
