@@ -26,3 +26,7 @@
 - 차트 : MPAndroidChart
 - async : Coroutines
 - csv 파일 생성 : kotlin-csv-jvm
+
+#### UI
+- XML
+- COMPOSE
