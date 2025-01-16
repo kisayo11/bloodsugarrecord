@@ -15,7 +15,7 @@ import com.kisayo.bloodsugarrecord.data.model.InsulinStock
         InsulinInjection::class,
         DeletionReason::class
     ],
-    version = 2
+    version = 3
 )
 abstract class InsulinDatabase : RoomDatabase(){
   abstract fun insulinRecordDao() : InsulinRecordDao

@@ -333,8 +333,8 @@ fun InsulinListContent(viewModel: InsulinViewModel) {
                     Spacer(modifier = Modifier.height(8.dp))
                     Text("처방일: ${stock.prescription_date}")
                     Text("투약 시작일: ${stock.start_date}")
-                    Text("총 용량: ${stock.total_amount}u")
-                    Text("남은 용량: ${stock.remaining_amount}u")
+                    Text("총 용량: ${stock.total_amount}IU")
+                    Text("남은 용량: ${stock.remaining_amount}IU")
 
                     // 삭제 버튼
                     IconButton(

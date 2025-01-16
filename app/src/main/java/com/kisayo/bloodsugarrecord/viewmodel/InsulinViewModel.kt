@@ -88,19 +88,22 @@ class InsulinViewModel(application: Application) : AndroidViewModel(application)
         loadInsulinData(_currentDate.value)
 
         viewModelScope.launch {
-            Log.d("InsulinViewModel", "Start: Flow chain 설정")
+            Log.d("InsulinViewModel", "Starting Flow chain setup")
             currentDate.collect { date ->
-                Log.d("InsulinViewModel", " 1.currentDate collect 감지: $date")
+                Log.d("InsulinViewModel", "1. Date change detected: $date")
                 repository.getInjectionsByDate(date).collect { records ->
-                    Log.d("InsulinViewModel", "2.getInjectionsByDate Flow collect")
-                    Log.d("InsulinViewModel", "3.injection records : ${records.size}개")
+                    Log.d("InsulinViewModel", "2. Fetched records for date: $date")
+                    Log.d("InsulinViewModel", "3. Found ${records.size} injection records")
                     _dailyInjectionRecord.value = records
                     if (records.isNotEmpty()) {
-                        Log.d("InsulinViewModel", "4.records, dating")
-                        _todayTotalAmount.value = records.first().injection_amount
-                        _selectedInjectionSite.value = records.first().injection_site
+                        Log.d("InsulinViewModel", "4. Records exist - updating UI values")
+                        records.firstOrNull()?.let { record ->
+                            _todayTotalAmount.value = record.injection_amount
+                            _selectedInjectionSite.value = record.injection_site
+                            Log.d("InsulinViewModel", "5. Updated - Amount: ${record.injection_amount}u, Site: ${record.injection_site}")
+                        }
                     } else {
-                        Log.d("InsulinViewModel", "4.records empty, 초기화")
+                        Log.d("InsulinViewModel", "4. No records found - resetting values")
                         _todayTotalAmount.value = 0
                         _selectedInjectionSite.value = null
                     }
@@ -144,12 +147,23 @@ class InsulinViewModel(application: Application) : AndroidViewModel(application)
     }
 
     fun updateDate(newDate: String) {
-        Log.d("InsulinViewModel", "updateDate 호출됨: $newDate")
+        Log.d("InsulinViewModel", "updateDate called: $newDate")
         viewModelScope.launch {
             _currentDate.value = newDate
-            _todayTotalAmount.value = 0
-            _selectedInjectionSite.value = null
-            Log.d("InsulinViewModel", "currentDate 값 변경됨: ${_currentDate.value}")
+            // Flow가 새로 collect되는지 확인하기 위해 로그 추가
+            repository.getInjectionsByDate(newDate).collect { records ->
+                Log.d("InsulinViewModel", "New date records fetched: ${records.size} for date $newDate")
+                _dailyInjectionRecord.value = records
+                if (records.isNotEmpty()) {
+                    _todayTotalAmount.value = records.first().injection_amount
+                    _selectedInjectionSite.value = records.first().injection_site
+                    Log.d("InsulinViewModel", "Data updated - Amount: ${records.first().injection_amount}u, Site: ${records.first().injection_site}")
+                } else {
+                    _todayTotalAmount.value = 0
+                    _selectedInjectionSite.value = null
+                    Log.d("InsulinViewModel", "No records found for date: $newDate")
+                }
+            }
         }
     }
 
@@ -179,35 +193,22 @@ class InsulinViewModel(application: Application) : AndroidViewModel(application)
         _showInsulinInfoComponent.value = false
     }
 
-    fun recordInjection(amount: Int, site: String?, notes: String? = null) = viewModelScope.launch {
+    fun updateInjectionAmount(amount: Int) = viewModelScope.launch {
         currentStock.value?.let { stock ->
-            // 현재 날짜의 기존 데이터를 한 번만 가져오기 위해 first() 사용
-            val currentRecord = try {
-                repository.getInjectionsByDate(getCurrentDate()).first().firstOrNull()
-            } catch (e: Exception) {
-                Log.e("InsulinViewModel", "기존 데이터 조회 실패", e)
-                null
-            }
+            val selectedDate = _currentDate.value
+            val currentRecord = repository.getInjectionsByDate(selectedDate).first().firstOrNull()
 
             val injection = InsulinInjection(
                 stock_id = stock.stock_id,
-                date = getCurrentDate(),
+                date = selectedDate,
                 injection_time = getCurrentTime(),
                 injection_amount = amount,
-                injection_site = site ?: currentRecord?.injection_site ?: "",
-                notes = notes
+                injection_site = currentRecord?.injection_site ?: "",
+                notes = currentRecord?.notes
             )
-
             repository.insertInjection(injection)
-            Log.d("InsulinViewModel", "새로운 주입 기록 추가 완료")
-
-            // 남은 용량 업데이트
-            val newAmount = stock.remaining_amount - amount
-            repository.updateRemainingAmount(stock.stock_id, newAmount)
-
-            _todayTotalAmount.value = amount
-        } ?: Log.e("InsulinViewModel", "currentStock이 null입니다")
-
+            loadInjectionData(selectedDate)  // 데이터 다시 로드
+        }
         _showInjectionDialog.value = false
     }
 
@@ -277,27 +278,37 @@ class InsulinViewModel(application: Application) : AndroidViewModel(application)
         }
     }
 
-    fun updateInjectionSite(site: String) {
-        viewModelScope.launch {
-            currentStock.value?.let { stock ->
-                val currentDate = getCurrentDate()
-                Log.d("InsulinViewModel", "투여 부위 기록 시작 - 날짜: $currentDate, 부위: $site")
+    fun updateInjectionSite(site: String) = viewModelScope.launch {
+        currentStock.value?.let { stock ->
+            val selectedDate = _currentDate.value
+            val currentRecord = repository.getInjectionsByDate(selectedDate).first().firstOrNull()
 
-                // 새로운 주입 기록 추가
-                val injection = InsulinInjection(
-                    stock_id = stock.stock_id,
-                    date = currentDate,
-                    injection_time = getCurrentTime(),
-                    injection_amount = _todayTotalAmount.value,  // 현재 투여량 유지
-                    injection_site = site,
-                    notes = null
-                )
-                repository.insertInjection(injection)
-                _selectedInjectionSite.value = site
-            }
+            val injection = InsulinInjection(
+                stock_id = stock.stock_id,
+                date = selectedDate,
+                injection_time = getCurrentTime(),
+                injection_amount = currentRecord?.injection_amount ?: 0,
+                injection_site = site,
+                notes = currentRecord?.notes
+            )
+            repository.insertInjection(injection)
+
+            // 데이터 다시 로드
+            loadInjectionData(selectedDate)
         }
-        onSiteDialogDismiss()
     }
-
+    private fun loadInjectionData(date: String) = viewModelScope.launch {
+        try {
+            repository.getInjectionsByDate(date).first().let { records ->  // collect 대신 first() 사용
+                _dailyInjectionRecord.value = records
+                if (records.isNotEmpty()) {
+                    _todayTotalAmount.value = records.first().injection_amount
+                    _selectedInjectionSite.value = records.first().injection_site
+                }
+            }
+        } catch (e: Exception) {
+            Log.e("InsulinViewModel", "Error loading injection data", e)
+        }
+    }
 
 }

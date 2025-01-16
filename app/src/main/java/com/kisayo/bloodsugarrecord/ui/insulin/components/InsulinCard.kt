@@ -22,6 +22,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.AlertDialog
@@ -50,6 +52,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.DialogProperties
 import com.kisayo.bloodsugarrecord.ui.theme.AppColor
 import com.kisayo.bloodsugarrecord.viewmodel.InsulinViewModel
 
@@ -105,7 +108,7 @@ fun InsulinCard(
                 )
                 Text(  // 여기에 currentDate 표시 추가
                     text = currentDate,
-                    color = AppColor.InsulinCardText
+                    color = AppColor.InsulinCardBg
                 )
                 // 확장/축소 아이콘 버튼
                 val rotationState by animateFloatAsState(
@@ -140,6 +143,38 @@ fun InsulinCard(
                         .fillMaxWidth()
                         .padding(top = 16.dp)
                 ) {
+                    // currentStock이 null일 때 표시할 안내 메시지
+                    if (currentStock == null) {
+                        Card(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(bottom = 16.dp),
+                            colors = CardDefaults.cardColors(
+                                containerColor = Color.White
+                            )
+                        ) {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(16.dp),
+                                horizontalArrangement = Arrangement.Center,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Info,
+                                    contentDescription = null,
+                                    tint = AppColor.InsulinCardText
+                                )
+                                Spacer(modifier = Modifier.width(8.dp))
+                                Text(
+                                    text = "인슐린 정보 입력 또는 [사용중]을 선택해 주세요 ",
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    color = Color.Red
+                                )
+                            }
+                        }
+                    }
+
                     // 투여 정보 섹션
                     Row(
                         modifier = Modifier.fillMaxWidth(),
@@ -162,7 +197,7 @@ fun InsulinCard(
                                     color = Color.Black
                                 )
                                 Text(
-                                    text = "${todayTotalAmount}u",
+                                    text = "${todayTotalAmount}IU",
                                     style = MaterialTheme.typography.titleLarge,
                                     color = AppColor.InsulinCardText,
                                     modifier = Modifier.padding(vertical = 10.dp)
@@ -207,6 +242,7 @@ fun InsulinCard(
                             }
                         }
                     }
+
 
                     Spacer(modifier = Modifier.height(16.dp))
 
@@ -268,7 +304,7 @@ fun InsulinCard(
                                     color = Color.Black
                                 )
                                 Text(
-                                    text = "${currentStock?.remaining_amount ?: 0}u",
+                                    text = "${currentStock?.remaining_amount ?: 0}IU",
                                     style = MaterialTheme.typography.bodyMedium,
                                     color = AppColor.InsulinCardText
                                 )
@@ -280,7 +316,7 @@ fun InsulinCard(
                                     color = Color.Black
                                 )
                                 Text(
-                                    text = "${currentStock?.total_amount ?: 0}u",
+                                    text = "${currentStock?.total_amount ?: 0}IU",
                                     style = MaterialTheme.typography.bodyMedium,
                                     color = AppColor.InsulinCardText
                                 )
@@ -310,7 +346,7 @@ fun InsulinCard(
                             )
                             // 남은 용량 텍스트
                             Text(
-                                text = "${currentStock?.remaining_amount ?: 0}u",
+                                text = "${currentStock?.remaining_amount ?: 0}IU",
                                 style = MaterialTheme.typography.bodyLarge,
                                 color = Color.Black,
                                 modifier = Modifier.align(Alignment.Center)
@@ -373,8 +409,8 @@ fun InsulinCard(
     if (showInjectionDialog) {
         InjectionDialog(
             onDismiss = { viewModel.onInjectionDialogDismiss() },
-            onConfirm = { amount, site, notes ->
-                viewModel.recordInjection(amount, site.toString(), notes.toString())
+            onConfirm = { amount ->
+                viewModel.updateInjectionAmount(amount)
             }
         )
     }
@@ -403,7 +439,7 @@ fun InsulinCard(
 @Composable
 fun InjectionDialog(
     onDismiss: () -> Unit,
-    onConfirm: (amount: Int, Any?, Any?) -> Unit
+    onConfirm: (amount: Int) -> Unit
 ) {
     var amount by remember { mutableStateOf("") }
 
@@ -418,7 +454,7 @@ fun InjectionDialog(
                         amount = it
                     }
                 },
-                label = { Text("투여량 (u)", color = Color.Black) },
+                label = { Text("투여량 (IU)", color = Color.Black) },
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Number
                 ),
@@ -430,7 +466,7 @@ fun InjectionDialog(
                 onClick = {
                     val injectionAmount = amount.toIntOrNull() ?: 0
                     if (injectionAmount > 0) {
-                        onConfirm(injectionAmount, null, null)
+                        onConfirm(injectionAmount)
                     }
                 },
                 enabled = amount.isNotEmpty()
@@ -452,6 +488,7 @@ fun InjectionSiteDialog(
     onDismiss: () -> Unit,
     onSelect: (String) -> Unit
 ) {
+    var selectedSite by remember { mutableStateOf<String?>(null) }
     val injectionSites = listOf(
         "복부 좌측", "복부 우측",
         "허벅지 좌측", "허벅지 우측",
@@ -460,22 +497,49 @@ fun InjectionSiteDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
+        properties = DialogProperties(
+            dismissOnBackPress = true,
+            dismissOnClickOutside = false // 외부 터치 비활성화
+        ),
         title = { Text("투여 부위 선택", color = Color.Black) },
         text = {
             Column {
                 injectionSites.forEach { site ->
                     TextButton(
-                        onClick = { onSelect(site) },
+                        onClick = { selectedSite = site },
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(vertical = 4.dp)
                     ) {
-                        Text(site, color = Color.Black)
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(site, color = Color.Black)
+                            if (selectedSite == site) {
+                                Icon(
+                                    imageVector = Icons.Default.Check,
+                                    contentDescription = "Selected",
+                                    tint = Color.Black
+                                )
+                            }
+                        }
                     }
                 }
             }
         },
-        confirmButton = { },
+        confirmButton = {
+            TextButton(
+                onClick = {
+                    selectedSite?.let(onSelect)
+                    onDismiss()  // 다이얼로그 닫기
+                },
+                enabled = selectedSite != null
+            ) {
+                Text("확인", color = Color.Black)
+            }
+        },
         dismissButton = {
             TextButton(onClick = onDismiss) {
                 Text("취소", color = Color.Black)

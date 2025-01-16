@@ -238,14 +238,14 @@
                 android:fontFamily="@font/pretendard_medium"
                 android:text="인슐린 용량"
                 android:textColor="#333333"
-                android:textSize="16sp"/>
+                android:textSize="12sp"/>
             <TextView
                 android:id="@+id/tvInsulin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/pretendard_medium"
-                android:text="400u"
-                android:textColor="#007AFF"
+                android:text="10u"
+                android:textColor="#Ff1b5e20"
                 android:textSize="16sp"/>
             </LinearLayout>
         </LinearLayout>

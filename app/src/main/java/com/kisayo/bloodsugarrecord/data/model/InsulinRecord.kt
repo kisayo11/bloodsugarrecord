@@ -33,6 +33,7 @@ data class InsulinStock(
 
 @Entity(
     tableName = "insulin_injections",
+    primaryKeys = ["date"],
     foreignKeys = [
         ForeignKey(
             entity = InsulinStock::class,
@@ -43,16 +44,12 @@ data class InsulinStock(
     ]
 )
 data class InsulinInjection(
-    @PrimaryKey(autoGenerate = true)
-    val injection_id: Long = 0,
-
-    val stock_id: Long, //InsulinStock 참조
-    val date: String, // 기록한 날짜
-    val injection_time: String, // 투약 시간
-    val injection_amount: Int,  // 투여량
-    val injection_site: String, // 주사 부위
-    val notes: String?, // 특이사항
-
+    val stock_id: Long,
+    val date: String,
+    val injection_time: String,
+    val injection_amount: Int,
+    val injection_site: String,
+    val notes: String?,
     val created_at: Long = System.currentTimeMillis(),
     val updated_at: Long = System.currentTimeMillis()
 )

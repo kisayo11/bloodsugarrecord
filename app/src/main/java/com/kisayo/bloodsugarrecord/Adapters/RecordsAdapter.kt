@@ -67,7 +67,7 @@ class RecordsAdapter(
             // 체중
             binding.tvWeight.text = record.weight?.let { "$it kg" } ?: " -- "
 
-            binding.tvInsulin.text = insulinInjection?.injection_amount?.let { "$it 단위" } ?: "--"
+            binding.tvInsulin.text = insulinInjection?.injection_amount?.let { "$it IU" } ?: "--"
 
             // 특이사항 칩
             binding.chipNotes.apply {
