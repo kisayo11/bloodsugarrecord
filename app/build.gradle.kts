@@ -12,8 +12,8 @@ android {
         applicationId = "com.kisayo.bloodsugarrecord"
         minSdk = 26
         targetSdk = 34
-        versionCode = 3
-        versionName = "1.02"
+        versionCode = 4
+        versionName = "1.10"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
